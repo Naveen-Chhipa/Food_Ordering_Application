@@ -5,7 +5,7 @@ import Shimmer from "./Shimmer";
 import resList from "../utils/mockData";
 import { MENU_API } from "../utils/constants";
 import { Link } from "react-router-dom";
-
+import useOnlineStatus from "../utils/useOnlineStatus";
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filterListOfRestaurants, setFilterListOfRestaurants] = useState([]);
@@ -28,17 +28,28 @@ const Body = () => {
       json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   };
+
+  const onlineStatus = useOnlineStatus();
+
+  if (onlineStatus == false)
+    return (
+      <h1>
+        Lost in the offline world? Check your internet connection and come back
+        soon!
+      </h1>
+    );
+
   if (listOfRestaurants.length == 0) {
     return <Shimmer />;
   }
   return (
     <div className="body">
-      <div className="filter">
-        <div>
+      <div className="filter flex">
+        <div className="search m-4 p-4 ">
           <input
             type="text"
-            className="search-box"
-            placeholder="Search restaurants..."
+            className=" border border-solid border-black rounded-md"
+            placeholder="  Search restaurants..."
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
@@ -64,7 +75,7 @@ const Body = () => {
           </button> */}
         </div>
         <button
-          className="filter-button"
+          className="filter-button border px-4 my-7 bg-gray-200 rounded-lg"
           onClick={() => {
             const filterList = filterListOfRestaurants.filter(
               (res) => res.info.avgRating > 4.2
@@ -75,10 +86,14 @@ const Body = () => {
           Top Rated Restaurants
         </button>
       </div>
-      <div className="res-container">
+      <div className="res-container flex flex-wrap gap-4">
         {filterListOfRestaurants.map((ele) => (
           <Link key={ele.info.id} to={"/restaurant/" + ele.info.id}>
-            <RestaurantCard key={ele.info.id} resData={ele} />
+            <RestaurantCard
+              key={ele.info.id}
+              resData={ele}
+              className="h-full flex-grow"
+            />
           </Link>
         ))}
       </div>
