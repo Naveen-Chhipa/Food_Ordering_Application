@@ -1,15 +1,19 @@
-import { useEffect, useState } from "react";
-import resList from "../utils/mockData";
-import RestaurantCard from "./RestaurantCard";
+import { useEffect, useState, useContext } from "react";
+// import resList from "../utils/mockData";
+import RestaurantCard, { withLableRestaurantCard } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import resList from "../utils/mockData";
-import { MENU_API } from "../utils/constants";
+// import { MENU_API } from "../utils/constants";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
+
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filterListOfRestaurants, setFilterListOfRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+  const promoted = withLableRestaurantCard(RestaurantCard);
 
   useEffect(() => {
     fetchData();
@@ -20,7 +24,7 @@ const Body = () => {
     );
     const json = await data.json();
 
-    // console.log(json);
+    console.log(json);
     setListOfRestaurants(
       json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
@@ -39,9 +43,11 @@ const Body = () => {
       </h1>
     );
 
-  if (listOfRestaurants.length == 0) {
+  if (listOfRestaurants?.length == 0) {
     return <Shimmer />;
   }
+
+  const { loggedInUser, setUserName } = useContext(UserContext);
   return (
     <div className="body">
       <div className="filter flex">
@@ -53,7 +59,7 @@ const Body = () => {
             value={searchText}
             onChange={(e) => {
               setSearchText(e.target.value);
-              const temp = listOfRestaurants.filter((res) =>
+              const temp = filterListOfRestaurants.filter((res) =>
                 res.info.name.toLowerCase().includes(searchText.toLowerCase())
               );
               setFilterListOfRestaurants(temp);
@@ -85,15 +91,29 @@ const Body = () => {
         >
           Top Rated Restaurants
         </button>
+
+        <div className="pl-6 pt-[30px] ml-4 items-center ">
+          <label className="font-semibold">UserName : </label>
+          <input
+            placeholder="userName"
+            className="pl-2 border m-auto border-black bg-slate-50 rounded-lg"
+            value={loggedInUser}
+            onChange={(e) => setUserName(e.target.value)}
+          ></input>
+        </div>
       </div>
       <div className="res-container flex flex-wrap gap-4">
         {filterListOfRestaurants.map((ele) => (
           <Link key={ele.info.id} to={"/restaurant/" + ele.info.id}>
-            <RestaurantCard
-              key={ele.info.id}
-              resData={ele}
-              className="h-full flex-grow"
-            />
+            {ele.info.promoted ? (
+              <promoted resData={RestaurantCard} />
+            ) : (
+              <RestaurantCard
+                key={ele.info.id}
+                resData={ele}
+                className="h-full flex-grow"
+              />
+            )}
           </Link>
         ))}
       </div>
