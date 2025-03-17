@@ -6,7 +6,7 @@ import UserConext from "../utils/UserContext";
 const Header = () => {
   const [btnName, setBtnName] = useState("Login");
   const onlineStatus = useOnlineStatus();
-  const {loggedInUser}=useContext(UserConext);
+  const { loggedInUser } = useContext(UserConext);
   return (
     <div className=" m-4 p-4 header flex justify-between shadow-lg bg-yellow-50">
       <div className="logo-container">
@@ -27,7 +27,7 @@ const Header = () => {
           </li>
           <li className="px-4 text-lg">Cart</li>
           <li className="px-4 text-lg">
-            <Link to="/grocery text-lg">Grocery</Link>
+            <Link to="/grocery">Grocery</Link>
           </li>
           <button
             className="login px-4 text-lg"
@@ -38,7 +38,6 @@ const Header = () => {
             {btnName}
           </button>
           <li className="px-4 text-lg">{loggedInUser}</li>
-
         </ul>
       </div>
     </div>

@@ -8,25 +8,29 @@ import Error from "./components/Error";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import RestaurnatMenu from "./components/RestaurantMenu";
 import UserContext from "./utils/UserContext";
+import { Provider } from "react-redux";
+import appStore from "./utils/redux-store/appStore";
 // import Grocery from "./components/Grocery";
 
 const Grocery = lazy(() => import("./components/Grocery"));
 const AppLayout = () => {
 
 
-  const [userName, setUserName] = useState("dsjf");
+  const [userName, setUserName] = useState();
 
   useEffect(() => {
     setUserName("Naveen Chhipa");
   }, []);
 
   return (
+    <Provider store={appStore}>
     <UserContext.Provider value={{ loggedInUser: userName ,setUserName }}>
       <div className="app">
         <Header />
         <Outlet />
       </div>
     </UserContext.Provider>
+    </Provider>
   );
 };
 
