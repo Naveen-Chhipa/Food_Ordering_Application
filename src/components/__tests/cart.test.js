@@ -4,6 +4,8 @@ import MOCK_DATA from "../mockData/resMenuListMock.json";
 import { act } from "react";
 import { Provider } from "react-redux";
 import appStore from "../../utils/redux-store/appStore";
+import ItemCardsForCart from "../itemCardsForCart";
+import Cart from "../Cart";
 import Header from "../Header";
 import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
@@ -17,10 +19,12 @@ it("should load restaurant Menu component", async () => {
   await act(async () =>
     render(
       <BrowserRouter>
-      <Provider store={appStore}>
-        <Header/>
-        <RestaurantMenu />
-      </Provider>
+        <Provider store={appStore}>
+          <Header />
+          <Cart />
+
+          <RestaurantMenu />
+        </Provider>
       </BrowserRouter>
     )
   );
@@ -31,10 +35,13 @@ it("should load restaurant Menu component", async () => {
   const menuitems = screen.getAllByTestId("menuList");
   expect(menuitems.length).toBe(2);
 
-  const addBtns=screen.getAllByRole("button",{ name : "ADD"});
+  const addBtns = screen.getAllByRole("button", { name: "ADD" });
   fireEvent.click(addBtns[0]);
-
-  expect(screen.getByText("Cart-(1")).toBeInTheDocument();
+  expect(screen.getByText("Cart-(1)")).toBeInTheDocument();
+  
+  fireEvent.click(addBtns[1]);
+  expect(screen.getByText("Cart-(2)")).toBeInTheDocument();
+  
 
 
 });

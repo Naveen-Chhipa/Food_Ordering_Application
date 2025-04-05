@@ -9,9 +9,23 @@ const cartSlice = createSlice({
     addItem: (state, action) => {
       state.items.push(action.payload);
     },
-    removeItem: (state) => {
-      state.items.pop();
+    removeItem: (state, action) => {
+      const itemId = action.payload.card.info.id;
+      const index = state.items.findIndex(
+        (item) => item.card.info.id === itemId
+      );
+
+      if (index !== -1) {
+        if (state.items[index].quantity > 1) {
+          // Reduce quantity step-by-step
+          state.items[index].quantity -= 1;
+        } else {
+          // Remove item if quantity is 1
+          state.items.splice(index, 1);
+        }
+      }
     },
+
     clearCart: (state) => {
       state.items.length = 0;
     },

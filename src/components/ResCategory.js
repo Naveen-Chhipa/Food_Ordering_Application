@@ -6,8 +6,8 @@ const ResCategory = ({ data, showItems, setShowIndex }) => {
     setShowIndex();
   };
   return (
-    <div className="rounded-lg text-center bg-gray-70 w-6/12 shadow-md mx-auto my-4 ">
-      <div
+    <div  className="rounded-lg text-center bg-gray-70 w-6/12 shadow-md mx-auto my-4 ">
+      <div 
         className="cursor-pointer flex justify-between"
         onClick={clickhandle}
       >

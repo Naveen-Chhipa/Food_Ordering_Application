@@ -13,7 +13,7 @@ const Contact = () => {
           placeholder="msg"
         ></input>
         <button className=" border border-black p-2 m-2 bg-gray-100 rounded-lg">
-          Submit
+          submit
         </button>
       </form>
     </div>

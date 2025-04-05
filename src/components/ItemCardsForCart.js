@@ -20,7 +20,7 @@ const ItemCardsForCart = ({ item }) => {
   const groupedItems = Object.values(itemMap);
 
   return (
-    <div className="space-y-4">
+    <div data-testid="foodItem" className="space-y-4">
       {groupedItems.map((cartItem) => (
         <div
           key={cartItem.card.info.id}

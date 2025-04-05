@@ -51,7 +51,7 @@ const ItemCards = ({ item }) => {
           key={items.card.info.id}
           className="flex justify-between items-center border border-gray-200 p-4 bg-gray-100 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
         >
-          <div className="w-3/4">
+          <div data-testid="menuList" className="w-3/4">
             <div className="text-left py-2">
               <span className="font-bold text-lg text-gray-800">
                 {items.card.info.name}

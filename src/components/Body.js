@@ -24,7 +24,7 @@ const Body = () => {
     );
     const json = await data.json();
 
-    console.log(json);
+    // console.log(json);
     setListOfRestaurants(
       json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
@@ -54,6 +54,7 @@ const Body = () => {
         <div className="search m-4 p-4 ">
           <input
             type="text"
+            data-testid="searchInput"
             className=" border border-solid border-black rounded-md"
             placeholder="  Search restaurants..."
             value={searchText}
